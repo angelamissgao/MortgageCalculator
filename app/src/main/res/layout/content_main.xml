@@ -31,7 +31,6 @@
         <TableRow
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
-
             >
 
             <TextView
@@ -199,6 +198,8 @@
             android:text="Calculate"
             android:id="@+id/buttonAdd"
             android:enabled="true"
+
+            android:onClick="showResult" />/ test
              />
         </TableRow>
 
@@ -220,6 +221,13 @@
                 android:id="@+id/MonthlyResult"
                 android:textColor="#0b0101"
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="$"
+                android:padding="5dip"/>
+
         </TableRow>
 
         <TableRow
@@ -239,7 +247,22 @@
                 android:id="@+id/totalMorgage"
                 android:textColor="#0b0101"
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="$"
+                android:padding="5dip"/>
         </TableRow>
+
+        //test
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="button_send"
+            android:enabled="true"
+            android:onClick="sendMessage"
+            android:id="@+id/button1" />
 
     </TableLayout>
 </LinearLayout>
