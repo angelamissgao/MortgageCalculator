@@ -18,12 +18,15 @@ import java.util.ArrayList;
 import Model.Mortgate;
 import Util.Calculation;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity{
     Button button;
 
     private Button btnAdd;
     private TextView monthlyResult, totalResult;
     private EditText Price, Interest, Term, DownPayment, PropertyTax, Insurance;
+
+    ArrayList<String> results = new ArrayList<String>();
+    Mortgate mortgate = new Mortgate();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,45 +44,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        init();
 
         addListenerOnButton();
     }
 
 
-    //test
     private void addListenerOnButton() {
         final Context context = this;
 
         button = (Button) findViewById(R.id.button1);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, DisplayMessageActivity.class);
-
-                ArrayList<String> results = new ArrayList<String>();
-                results.add("Hello");
-                results.add("worlds");
-
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("result", results);
-                intent.putExtras(bundle);
-
-                startActivity(intent);
-
-                String termInYear1 = Term.getText().toString();
-                Mortgate mortgate1 = new Mortgate();
-                Calculation cal1 = new Calculation();
-
-
-
-            }
-        });
-    }
-
-    private void init() {
-        btnAdd = (Button)findViewById(R.id.buttonAdd);
         Price = (EditText)findViewById(R.id.Price);
         Interest = (EditText)findViewById(R.id.InterestRate);
         Term = (EditText)findViewById(R.id.Term);
@@ -89,42 +62,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         monthlyResult = (TextView)findViewById(R.id.MonthlyResult);
         totalResult = (TextView)findViewById(R.id.totalMorgage);
 
-        btnAdd.setOnClickListener(this);
-    };
 
-    @Override
-    public void onClick(View v) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DisplayMessageActivity.class);
 
-        String purchasePrice = Price.getText().toString();
-        String InterestRate = Interest.getText().toString();
-        String termInYear = Term.getText().toString();
-        String DownPaymentString = DownPayment.getText().toString();
-        String PropertyTaxString = PropertyTax.getText().toString();
-        String InsuranceString = Insurance.getText().toString();
+                String purchasePrice = Price.getText().toString();
+                String InterestRate = Interest.getText().toString();
+                String termInYear = Term.getText().toString();
+                String DownPaymentString = DownPayment.getText().toString();
+                String PropertyTaxString = PropertyTax.getText().toString();
+                String InsuranceString = Insurance.getText().toString();
 
-        Mortgate mortgate = new Mortgate();
-        mortgate.purchasePrice = Double.parseDouble(Price.getText().toString());
-        mortgate.downPayment = Double.parseDouble(DownPaymentString);
-        mortgate.term = Integer.parseInt(termInYear);
-        mortgate.interestRate = Double.parseDouble(InterestRate);
-        mortgate.tax = Double.parseDouble(PropertyTaxString);
-        mortgate.insurance =  Double.parseDouble(InsuranceString);
+                mortgate.purchasePrice = Double.parseDouble(purchasePrice);
+                mortgate.downPayment = Double.parseDouble(DownPaymentString);
+                mortgate.term = Integer.parseInt(termInYear);
+                mortgate.interestRate = Double.parseDouble(InterestRate);
+                mortgate.tax = Double.parseDouble(PropertyTaxString);
+                mortgate.insurance =  Double.parseDouble(InsuranceString);
 
-        Calculation cal = new Calculation();
 
-        switch (v.getId()){
-            case R.id.buttonAdd:
-
-                //Monthly calculation
+                Calculation cal = new Calculation();
                 double mortResultMonth_cal = cal.calculMonthly(mortgate.purchasePrice, mortgate.downPayment, mortgate.term, mortgate.interestRate, mortgate.tax, mortgate.insurance);
                 String mortResultMonth = String.valueOf(mortResultMonth_cal);
-                monthlyResult.setText(mortResultMonth);
 
-                //totoal calculation
                 double mortResultTotal_cal = cal.calculTotal(mortResultMonth_cal, mortgate.term);
-                totalResult.setText(String.valueOf(mortResultTotal_cal));
-                break;
-        }
+                String mortResultTotal = String.valueOf(mortResultTotal_cal);
+
+                results.add(mortResultMonth);
+                results.add(mortResultTotal);
+
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("result", results);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+
+            }
+        });
     }
 
 }

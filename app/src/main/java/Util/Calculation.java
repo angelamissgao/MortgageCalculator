@@ -1,9 +1,12 @@
 package Util;
 
+import android.database.sqlite.SQLiteDatabase;
+
 /**
  * Created by angelagao on 3/24/16.
  */
 public class Calculation {
+//    SQLiteDatabase myDB = SQLiteDatabase.openOrCreateDatabase("myDB", MODE_PRIVATE,null);
     public double calculMonthly(double purchasePrice, double downPayment, int termInYear, double interestRate, double tax, double insurance) {
 
         downPayment = downPayment / 100;
@@ -25,4 +28,6 @@ public class Calculation {
     public double calculTotal(double monthlyMort, int term) {
         return monthlyMort * term * 12;
     }
+
+
 }
