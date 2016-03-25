@@ -4,7 +4,7 @@ package Util;
  * Created by angelagao on 3/24/16.
  */
 public class Calculation {
-    public double calculation(double purchasePrice, double downPayment, int termInYear, double interestRate, double tax, double insurance) {
+    public double calculMonthly(double purchasePrice, double downPayment, int termInYear, double interestRate, double tax, double insurance) {
 
         downPayment = downPayment / 100;
         double loanPrice = purchasePrice * (1 - downPayment);
@@ -20,5 +20,9 @@ public class Calculation {
         mortResult += insuranceInMonth;
 
         return mortResult;
+    }
+
+    public double calculTotal(double monthlyMort, int term) {
+        return monthlyMort * term * 12;
     }
 }

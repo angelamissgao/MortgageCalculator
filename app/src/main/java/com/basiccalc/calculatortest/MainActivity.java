@@ -15,7 +15,7 @@ import Util.Calculation;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Button btnAdd;
-    private TextView result;
+    private TextView monthlyResult, totalResult;
     private EditText Price, Interest, Term, DownPayment, PropertyTax, Insurance;
 
     @Override
@@ -45,15 +45,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DownPayment = (EditText)findViewById(R.id.DownPayment);
         PropertyTax = (EditText)findViewById(R.id.PropertyTax);
         Insurance = (EditText)findViewById(R.id.PropertyInsurance);
-        result = (TextView)findViewById(R.id.result);
+        monthlyResult = (TextView)findViewById(R.id.MonthlyResult);
+        totalResult = (TextView)findViewById(R.id.totalMorgage);
 
         btnAdd.setOnClickListener(this);
     };
 
     @Override
     public void onClick(View v) {
-
-
 
         String purchasePrice = Price.getText().toString();
         String InterestRate = Interest.getText().toString();
@@ -74,22 +73,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()){
             case R.id.buttonAdd:
-//                double downPayment = Double.parseDouble(DownPaymentString) / 100;
-//                double loanPrice = Double.parseDouble(purchasePrice) * (1 - downPayment);
-//                double propertyTaxInMonth = Double.parseDouble(PropertyTaxString) / 12;
-//                double insuranceInMonth = Double.parseDouble(InsuranceString) / 12;
-//
-//                double monthlyRate = Double.parseDouble(InterestRate) /100 / 12;
-//                int termInMonth = Integer.parseInt(termInYear) * 12;
-//
-//                double mortResult = (loanPrice * monthlyRate) /
-//                        (1-Math.pow(1+monthlyRate, -termInMonth));
-//                mortResult += propertyTaxInMonth;
-//                mortResult += insuranceInMonth;
 
-                double mortResult_cal = cal.calculation(mortgate.purchasePrice, mortgate.downPayment, mortgate.term, mortgate.interestRate, mortgate.tax, mortgate.insurance);
+                //Monthly calculation
+                double mortResultMonth_cal = cal.calculMonthly(mortgate.purchasePrice, mortgate.downPayment, mortgate.term, mortgate.interestRate, mortgate.tax, mortgate.insurance);
+                monthlyResult.setText(String.valueOf(mortResultMonth_cal));
 
-                result.setText(String.valueOf(mortResult_cal));
+                //totoal calculation
+                double mortResultTotal_cal = cal.calculTotal(mortResultMonth_cal, mortgate.term);
+                totalResult.setText(String.valueOf(mortResultTotal_cal));
                 break;
         }
     }

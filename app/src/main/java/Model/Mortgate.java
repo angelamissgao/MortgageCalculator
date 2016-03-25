@@ -8,7 +8,6 @@ public class Mortgate {
     public double downPayment;
     public int term;
     public double interestRate;
-    public double monthlyRate;
     public double tax;
     public double insurance;
 }
