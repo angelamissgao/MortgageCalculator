@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,8 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import Model.Mortgate;
-import Util.Calculation;
+import Model.Mortgage;
 import Util.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity{
@@ -24,10 +22,10 @@ public class MainActivity extends AppCompatActivity{
     DatabaseHelper myDb;
     private Button btnAdd;
     private TextView monthlyResult, totalResult;
-    private EditText Price, Interest, Term, DownPayment, PropertyTax, Insurance;
+    private EditText Price, Interest, Term, DownPayment, PropertyTax, Insurance, FirstMonth, FirstYear;
 
     ArrayList<String> results = new ArrayList<String>();
-    Mortgate mortgate = new Mortgate();
+    Mortgage mortgage = new Mortgage();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +59,9 @@ public class MainActivity extends AppCompatActivity{
         DownPayment = (EditText)findViewById(R.id.DownPayment);
         PropertyTax = (EditText)findViewById(R.id.PropertyTax);
         Insurance = (EditText)findViewById(R.id.PropertyInsurance);
+        FirstMonth = (EditText)findViewById(R.id.Month);
+        FirstYear = (EditText)findViewById(R.id.Year);
+
         monthlyResult = (TextView)findViewById(R.id.MonthlyResult);
         totalResult = (TextView)findViewById(R.id.totalMorgage);
 
@@ -76,33 +77,42 @@ public class MainActivity extends AppCompatActivity{
                 String DownPaymentString = DownPayment.getText().toString();
                 String PropertyTaxString = PropertyTax.getText().toString();
                 String InsuranceString = Insurance.getText().toString();
+                String firstMonthString = FirstMonth.getText().toString();
+                String firstYearString = FirstYear.getText().toString();
 
-                mortgate.purchasePrice = Double.parseDouble(purchasePrice);
-                mortgate.downPayment = Double.parseDouble(DownPaymentString);
-                mortgate.term = Integer.parseInt(termInYear);
-                mortgate.interestRate = Double.parseDouble(InterestRate);
-                mortgate.tax = Double.parseDouble(PropertyTaxString);
-                mortgate.insurance =  Double.parseDouble(InsuranceString);
+                mortgage.purchasePrice = Double.parseDouble(purchasePrice);
+                mortgage.downPayment = Double.parseDouble(DownPaymentString);
+                mortgage.term = Integer.parseInt(termInYear);
+                mortgage.interestRate = Double.parseDouble(InterestRate);
+                mortgage.tax = Double.parseDouble(PropertyTaxString);
+                mortgage.insurance =  Double.parseDouble(InsuranceString);
+                mortgage.firstPaymentMonth = Integer.parseInt(firstMonthString);
+                mortgage.firstPaymentYear = Integer.parseInt(firstYearString);
 
-
-                Calculation cal = new Calculation();
-                double mortResultMonth_cal = cal.calculMonthly(mortgate.purchasePrice, mortgate.downPayment, mortgate.term, mortgate.interestRate, mortgate.tax, mortgate.insurance);
+                //new object
+                double mortResultMonth_cal = mortgage.getMonthlyMortgate();
                 String mortResultMonth = String.valueOf(mortResultMonth_cal);
 
-                double mortResultTotal_cal = cal.calculTotal(mortResultMonth_cal, mortgate.term);
+                double mortResultTotal_cal = mortgage.getTotalMortgate();
                 String mortResultTotal = String.valueOf(mortResultTotal_cal);
 
+                int[] payoffDate = mortgage.getPayoffDate();
+                String payoffMonth = String.valueOf(payoffDate[0]);
+                String payoffYear = String.valueOf(payoffDate[1]);
+
                 //DB insert
-                String isInserted = myDb.insertRecord(mortResultMonth, mortResultTotal);
+                String isInserted = myDb.insertRecord(mortgage);
 
                 results.add(mortResultMonth);
                 results.add(mortResultTotal);
                 results.add(isInserted);
+                results.add(payoffMonth);
+                results.add(payoffYear);
+
 
                 Bundle bundle = new Bundle();
                 bundle.putStringArrayList("result", results);
                 intent.putExtras(bundle);
-
 
                 startActivity(intent);
 

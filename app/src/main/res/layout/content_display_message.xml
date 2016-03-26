@@ -99,17 +99,43 @@ android:orientation="vertical">
 
     <TableRow
         android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Payoff Date:"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/PayOffMonth"
+            android:textColor="#0b0101"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/PayOffYear"
+            android:textColor="#0b0101"
+            />
+    </TableRow>
+
+    <TableRow
+        android:layout_height="wrap_content"
         android:layout_width="fill_parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="message"
+            android:text="message:"
             android:id="@+id/msg"
             android:textColor="#0b0101" />
 
-        </TableRow>
+    </TableRow>
 
     </TableLayout>
 </LinearLayout>
