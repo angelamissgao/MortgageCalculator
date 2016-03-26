@@ -17,10 +17,11 @@ import java.util.ArrayList;
 
 import Model.Mortgate;
 import Util.Calculation;
+import Util.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity{
     Button button;
-
+    DatabaseHelper myDb;
     private Button btnAdd;
     private TextView monthlyResult, totalResult;
     private EditText Price, Interest, Term, DownPayment, PropertyTax, Insurance;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        myDb = new DatabaseHelper(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -90,12 +92,17 @@ public class MainActivity extends AppCompatActivity{
                 double mortResultTotal_cal = cal.calculTotal(mortResultMonth_cal, mortgate.term);
                 String mortResultTotal = String.valueOf(mortResultTotal_cal);
 
+                //DB insert
+                String isInserted = myDb.insertRecord(mortResultMonth, mortResultTotal);
+
                 results.add(mortResultMonth);
                 results.add(mortResultTotal);
+                results.add(isInserted);
 
                 Bundle bundle = new Bundle();
                 bundle.putStringArrayList("result", results);
                 intent.putExtras(bundle);
+
 
                 startActivity(intent);
 

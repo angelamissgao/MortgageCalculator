@@ -1,5 +1,6 @@
 package Util;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -29,5 +30,16 @@ public class Calculation {
         return monthlyMort * term * 12;
     }
 
-
+//    public void ManipulateDB() {
+//        DatabaseHelper DBHelper = new DatabaseHelper(getContext());
+//
+//        SQLiteDatabase db = DBHelper.getWritableDatabase();
+//
+//        ContentValues values = new ContentValues();
+//        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID, id);
+//        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, title);
+//        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_SUBTITLE,content);
+//
+//        values.put("", 1);
+//    }
 }
